@@ -9,29 +9,29 @@ import java.util.Scanner;
 public class Main {
 
     public static void main(String[] args) {
-        String csvFile = "train.csv"; // Pastikan nama file ini sesuai dengan dataset Anda
+        String csvFile = "train.csv";
         List<Rumah> daftarRumah = new ArrayList<>();
         String line;
         String cvsSplitBy = ",";
 
         try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
-            // Lewati baris header
+
             br.readLine();
 
             while ((line = br.readLine()) != null) {
                 String[] data = line.split(cvsSplitBy);
 
-                // Tambahkan pengecekan ukuran array data untuk menghindari ArrayIndexOutOfBoundsException
-                // Dataset Kaggle ini punya 81 kolom (indeks 0 sampai 80)
-                if (data.length <= 80) { // Pastikan setidaknya ada kolom SalePrice
+
+
+                if (data.length <= 80) {
                     System.err.println("Melewatkan baris (jumlah kolom tidak cukup): " + line);
-                    continue; // Lanjutkan ke baris berikutnya
+                    continue;
                 }
 
                 try {
                     int id = Integer.parseInt(data[0].trim()); // Id
 
-                    // Gunakan fungsi bantu parseSafely untuk menangani nilai yang mungkin kosong/non-angka
+
                     int overallQual = parseSafely(data[18].trim()); // OverallQual
                     int grLivArea = parseSafely(data[43].trim()); // GrLivArea
                     int garageCars = parseSafely(data[62].trim()); // GarageCars
@@ -52,7 +52,7 @@ public class Main {
 
         Scanner scanner = new Scanner(System.in);
 
-        // --- Output salah satu data (misal data pertama) ---
+
         if (!daftarRumah.isEmpty()) {
             System.out.println("---------------------------------------------");
             System.out.println("Data rumah pertama yang dibaca:");
@@ -92,8 +92,8 @@ public class Main {
         scanner.close();
     }
 
-    // Fungsi bantu untuk parsing int yang aman
-    // Akan mengembalikan 0 jika string kosong, null, atau tidak bisa di-parse
+
+
     private static int parseSafely(String s) {
         if (s == null || s.trim().isEmpty() || s.trim().equalsIgnoreCase("NA")) {
             return 0; // Mengembalikan 0 atau nilai default lainnya
@@ -101,7 +101,7 @@ public class Main {
         try {
             return Integer.parseInt(s);
         } catch (NumberFormatException e) {
-            // Bisa log error spesifik jika perlu, tapi untuk tugas ini cukup kembalikan 0
+
             return 0;
         }
     }
